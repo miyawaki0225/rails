@@ -1,4 +1,7 @@
-言語バージョン: Ruby 2.4.4
+言語バージョン: Ruby 2.4.4  
+attr_accessor（読み方： アトリビュートアクセサー）  
+- ゲッターメソッドとセッターメソッドを役割があります。
+
 
 ## Ruby I
 -  1 章：Rubyを動かしてみよう
@@ -422,5 +425,112 @@ class Menu
 end
 
 ```
+
+
+Ruby V
+継承
+Dateクラスとクラスメソッド
+
+```ruby
+require "./menu"
+
+class 子クラス < 親クラス
+end
+```
+
+```ruby:index.rb
+# requireを使ってfood.rbとdrink.rbを読み込んでください
+require "./food"
+require "./drink"
+
+# Foodクラスのインスタンスを生成して変数food1に代入してください
+food1 = Food.new(name:"ピザ",price:800)
+
+# food1に対してinfoメソッドを呼び出して戻り値を出力してください
+puts food1.info
+
+# Drinkクラスのインスタンスを生成して変数drink1に代入してください
+drink1 = Drink.new(name:"コーラ",price:300)
+
+# drink1に対してinfoメソッドを呼び出して戻り値を出力してください
+puts drink1.info
+```
+
+```ruby:menu.rb（継承親ファイル）
+class Menu
+  attr_accessor :name
+  attr_accessor :price
+
+  def initialize(name:, price:)
+    self.name = name
+    self.price = price
+  end
+  
+  def info
+    return "#{self.name} #{self.price}円"
+  end
+  
+  def get_total_price(count)
+    total_price = self.price * count
+    if count >= 3
+      total_price -= 100
+    end
+    return total_price
+  end
+end
+```
+
+```ruby:food.rb
+require "./menu"
+
+class Food < Menu
+end
+```
+
+```ruby:drink.rb
+require "./menu"
+
+class Drink < Menu
+end
+```
+
+オーバーライド
+- 親クラスにあるメソッドと同じ名前のメソッドを子クラスで定義すると、メソッドを上書きすることができます。これをメソッドの「オーバーライド」と呼びます。
+
+スーパー
+- オーバーライドしたメソッドの中で「super」とすることで、親クラスの同名のメソッドを呼び出すことができます。
+あくまでメソッドを呼び出しているので、親クラスのメソッドの定義に合わせて、superに対して引数を渡す必要があります
+
+```ruby
+def initialize(name:, price:, calorie:)
+# superを使って書き換えてください
+super(name:name,price:price)
+self.calorie = calorie
+end
+```
+
+## Dateクラスの読み込み
+```ruby
+# "./date"ではない。すでにあるクラスなので書き方が違う
+require "date"
+```
+
+```java
+# requireを用いて、Dateクラスを読み込んでください
+require "date"
+# 変数birthdayに、Dateクラスのインスタンスを代入してください
+birthday = Date.new(1983,2,25)
+# 変数birthdayをputsしてください
+puts birthday
+# 変数birthdayにsunday?メソッドを用いた結果をputsしてください
+puts birthday.sunday?
+```
+
+## 今日の日付のDateインスタンスを取得する
+- Date.todayとすることで、今日の日付のインスタンス
+
+## クラスメソッドの定義
+- クラスメソッドは、「def クラス名.メソッド名」とすることで定義できます。
+- インスタンスメソッドとの違いはメソッド名の前にクラス名を書く必要がある点です。
 
 
